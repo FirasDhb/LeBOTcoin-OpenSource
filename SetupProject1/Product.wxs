@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<?define version= 1.0.3 ?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
+     xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
+  <Product Id="*" 
+           Name="LeBOTcoin" 
+           Language="1036" 
+           Version="$(var.version)" 
+           Manufacturer="Martin Bridoux" 
+           UpgradeCode="ABF29B8F-A90F-42D2-9322-BCEC5A4C8C7F">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+    <Icon Id="icon.ico" SourceFile="C:\Users\Martin\Downloads\favicon1.ico"/>
+    <Property Id="ARPPRODUCTICON" Value="C:\Users\Martin\Downloads\favicon1.ico" />
+    <PropertyRef Id="NETFRAMEWORK45"/>
+      <Condition Message="Cette application nécessite .NET Framework 4.5. Veuillez installer .NET Framework avant d'exécuter cet installateur.">
+    <![CDATA[Installed OR NETFRAMEWORK45]]>
+</Condition>
+
+      <Upgrade Id="ABF29B8F-A90F-42D2-9322-BCEC5A4C8C7F">
+        <UpgradeVersion Minimum="1.0.0"
+                        IncludeMinimum="yes"
+                        OnlyDetect="no"
+                        Maximum="$(var.version)"
+                        IncludeMaximum="no"
+                        MigrateFeatures='yes'
+                        Property="PREVIOUSFOUND" />
+      </Upgrade>
+      <InstallExecuteSequence>
+        <RemoveExistingProducts After='InstallInitialize' />
+      </InstallExecuteSequence>
+
+    <!--		<MajorUpgrade Schedule="afterInstallInitialize" DowngradeErrorMessage="Une version plus récente de [ProductName] est déjà installée." />-->
+		<MediaTemplate EmbedCab="yes"/>
+		<Feature Id="ProductFeature" Title="SetupProject1" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+		</Feature>
+  <UIRef Id="WixUI_InstallDir"/>
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+  <WixVariable Id="WixUIBannerBmp" Value="C:\Users\Martin\Desktop\Créations\Leboncoin bot\banner.bmp" />
+  <WixVariable Id="WixUIDialogBmp" Value="C:\Users\Martin\Desktop\Créations\Leboncoin bot\dialog.bmp" />
+	</Product>
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+      			<Directory Id="ProgramFilesFolder">
+       <Directory Id="INSTALLFOLDER" Name="LeBOTcoin">
+         <Directory Id="ENRESOURCESFOLDER" Name="en" />
+       </Directory>
+     </Directory>
+     <Directory Id="ProgramMenuFolder">
+       <Directory Id="ApplicationProgramsFolder" Name="LeBOTcoin" />
+     </Directory>
+     <Directory Id="DesktopFolder" Name="Desktop"></Directory>
+   </Directory>
+ </Fragment>
+  <Fragment><PackageGroup Id="Netfx45Xxx">
+    <ExePackage Id="Netfx45Xxx" Cache="no" Compressed="no" PerMachine="yes" Permanent="yes" Vital="yes" InstallCommand="/q"
+        SourceFile="C:\Users\Martin\Desktop\Créations\Leboncoin bot\dotNetFx45_Full_setup.exe"
+        DetectCondition="(Netfx4FullVersion=&quot;4.5.50709&quot;) AND (NOT VersionNT64 OR (Netfx4x64FullVersion=&quot;4.5.50709&quot;))"
+        InstallCondition="(VersionNT >= v6.0 OR VersionNT64 >= v6.0) AND (NOT (Netfx4FullVersion=&quot;4.5.50709&quot; OR Netfx4x64FullVersion=&quot;4.5.50709&quot;))"/>
+</PackageGroup></Fragment>
+   <Fragment>
+   <DirectoryRef Id="ApplicationProgramsFolder">
+     <Component Id="ApplicationShortcut" Guid="CD8D48E4-AE00-45F8-8624-9883D61C5494">
+       <Shortcut Id="ApplicationStartMenuShortcut" Name="LeBOTcoin" Description="Gérer vos annonces Leboncoin facilement" Target="[INSTALLFOLDER]LeBOTcoin.exe" WorkingDirectory="INSTALLFOLDER" />
+       <RemoveFolder Id="RemoveApplicationProgramsFolder" Directory="ApplicationProgramsFolder" On="uninstall" />
+       <RegistryValue Root="HKCU" Key="Software\LeBOTcoin" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+     </Component>
+   </DirectoryRef>
+   <DirectoryRef Id="DesktopFolder">
+     <Component Id="ApplicationShortcutDesktop" Guid="6C7BD57B-355E-401D-80CB-B93045BB408D">
+       <Shortcut Id="ApplicationDesktopShortcut" Name="LeBOTcoin" Description="Gérer vos annonces Leboncoin facilement" Target="[INSTALLFOLDER]LeBOTcoin.exe" WorkingDirectory="INSTALLFOLDER" />
+       <RemoveFolder Id="RemoveDesktopFolder" Directory="DesktopFolder" On="uninstall" />
+       <RegistryValue Root="HKCU" Key="Software\LeBOTcoin" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+     </Component>
+   </DirectoryRef>
+ </Fragment>
+
+	<Fragment>
+    <UI>
+  <UIRef Id="WixUI_InstallDir" />
+  <Publish Dialog="WelcomeDlg"
+        Control="Next"
+        Event="NewDialog"
+        Value="InstallDirDlg"
+        Order="2">1</Publish>
+  <Publish Dialog="InstallDirDlg"
+        Control="Back"
+        Event="NewDialog"
+        Value="WelcomeDlg"
+        Order="2">1</Publish>
+</UI>	
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER" Source="C:\Users\Martin\Documents\Visual Studio 2013\Projects\Metro\Metro\bin\Debug">      
+			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+			 <Component Id="MainExe"> 
+				<!-- TODO: Insert files, registry keys, and other resources here. -->
+        <File Source="$(var.LeBOTcoin.TargetPath)"/>
+    </Component> 
+      <Component Id="HtmlAgilityPack.dll">
+        <File Name="HtmlAgilityPack.dll" />
+      </Component>
+          <Component Id="Interop.SHDocVw.dll">
+        <File Name="Interop.SHDocVw.dll" />
+      </Component>
+          <Component Id="MetroFramework.Design.dll">
+        <File Name="MetroFramework.Design.dll" />
+      </Component>
+          <Component Id="MetroFramework.dll">
+        <File Name="MetroFramework.dll" />
+      </Component>
+          <Component Id="MetroFramework.Fonts.dll">
+        <File Name="MetroFramework.Fonts.dll" />
+      </Component>
+                <Component Id="GitHubUpdate.dll">
+        <File Name="GitHubUpdate.dll" />
+      </Component>
+          <Component Id="Microsoft.mshtml.dll">
+        <File Name="Microsoft.mshtml.dll" />
+      </Component>
+          <Component Id="Microsoft.WindowsAPICodePack.dll">
+        <File Name="Microsoft.WindowsAPICodePack.dll" />
+      </Component>
+          <Component Id="Newtonsoft.Json.dll">
+        <File Name="Newtonsoft.Json.dll" />
+      </Component>
+          <Component Id="System.Data.SQLite.dll">
+        <File Name="System.Data.SQLite.dll" />
+      </Component>
+          <Component Id="WatiN.Core.dll">
+        <File Name="WatiN.Core.dll" />
+      </Component>
+      <Component Id="Octokit.dll">
+        <File Name="Octokit.dll" />
+      </Component>
+      <Component Id="Semver.dll">
+        <File Name="Semver.dll" />
+      </Component>
+		</ComponentGroup>
+  
+	</Fragment>
+</Wix>
+
