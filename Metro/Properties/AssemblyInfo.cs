@@ -31,5 +31,5 @@ using System.Runtime.InteropServices;
 // Vous pouvez spécifier toutes les valeurs ou indiquer les numéros de build et de révision par défaut 
 // en utilisant '*', comme indiqué ci-dessous :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1")] // A CHANGER A CHAQUE BUILD
-[assembly: AssemblyFileVersion("1.1")] // A CHANGER A CHAQUE BUILD
+[assembly: AssemblyVersion("1.1.0")] // A CHANGER A CHAQUE BUILD
+[assembly: AssemblyFileVersion("1.1.0")] // A CHANGER A CHAQUE BUILD
