@@ -1,5 +1,5 @@
 # LeBOTcoin-OpenSource
-Renouveler vos annonces Leboncoin en un clic! (Merci aux contributeurs)
+Renouveler vos annonces Leboncoin en un clic!
 
 Version originale (mise à jour): https://github.com/Maartin10/LeBOTcoin
 
